@@ -14,7 +14,7 @@ export default class NumericInput extends Component {
         this.state = {
             value: noInitSent ? props.value ? props.value : 0 : props.initValue,
             lastValid: noInitSent ? props.value ? props.value : 0 : props.initValue,
-            stringValue: (noInitSent ? props.value ? props.value : 0 : props.initValue).toString(),
+            stringValue: this.stringify(noInitSent ? props.value ? props.value : 0 : props.initValue),
         }
         this.ref = null
     }
@@ -25,7 +25,7 @@ export default class NumericInput extends Component {
             this.setState({
                 value: props.initValue,
                 lastValid: props.initValue,
-                stringValue: props.initValue.toString()
+                stringValue: this.stringify(props.initValue)
             });
         }
     }
@@ -37,16 +37,25 @@ export default class NumericInput extends Component {
         if (this.props.maxValue === null || (value + this.props.step < this.props.maxValue)) {
             value = (value + this.props.step).toFixed(12)
             value = this.props.valueType === 'real' ? parseFloat(value) : parseInt(value)
-            this.setState({ value, stringValue: value.toString() })
+            let strValue = 
+            this.setState({ value, stringValue: this.stringify(value) })
         } else if (this.props.maxValue !== null) {
             this.props.onLimitReached(true, 'Reached Maximum Value!')
             value = this.props.maxValue
-            this.setState({ value, stringValue: value.toString() })
+            this.setState({ value, stringValue: this.stringify(value) })
 
         }
         if (value !== this.props.value)
             this.props.onChange && this.props.onChange(Number(value))
     }
+    stringify = (value) => {
+        if (this.props.decimals === null || this.props.decimals === undefined){
+            return value.toString();
+        } else {
+            return value.toFixed(this.props.decimals)
+        }
+    }
+        
     dec = () => {
         let value = this.props.value && (typeof this.props.value === 'number') ? this.props.value : this.state.value
         if (this.props.minValue === null || (value - this.props.step > this.props.minValue)) {
@@ -58,7 +67,7 @@ export default class NumericInput extends Component {
         }
         if (value !== this.props.value)
             this.props.onChange && this.props.onChange(Number(value))
-        this.setState({ value, stringValue: value.toString() })
+        this.setState({ value, stringValue: this.stringify(value) })
     }
     isLegalValue = (value, mReal, mInt) => value === '' || (((this.props.valueType === 'real' && mReal(value)) || (this.props.valueType !== 'real' && mInt(value))) && (this.props.maxValue === null || (parseFloat(value) <= this.props.maxValue)) && (this.props.minValue === null || (parseFloat(value) >= this.props.minValue)))
 
@@ -106,14 +115,14 @@ export default class NumericInput extends Component {
             parsedValue = isNaN(parsedValue) ? 0 : parsedValue
             if (parsedValue !== this.props.value)
                 this.props.onChange && this.props.onChange(parsedValue)
-            this.setState({ value: parsedValue, legal, stringValue: parsedValue.toString() })
+            this.setState({ value: parsedValue, legal, stringValue: this.stringify(parsedValue) })
         } else {
             this.setState({ stringValue: value })
             let parsedValue = this.props.valueType === 'real' ? parseFloat(value) : parseInt(value)
             parsedValue = isNaN(parsedValue) ? 0 : parsedValue
             if (parsedValue !== this.props.value)
                 this.props.onChange && this.props.onChange(parsedValue)
-            this.setState({ value: parsedValue, legal, stringValue: parsedValue.toString() })
+            this.setState({ value: parsedValue, legal, stringValue: this.stringify(parsedValue) })
 
         }
     }
@@ -135,7 +144,7 @@ export default class NumericInput extends Component {
                     setTimeout(() => {
                         this.props.onChange && this.props.onChange(this.state.lastValid)
                         this.setState({ value: this.state.lastValid }, () => {
-                            this.setState({ value: this.state.lastValid, stringValue: this.state.lastValid.toString() })
+                            this.setState({ value: this.state.lastValid, stringValue: this.stringify(this.state.lastValid) })
                             this.props.onChange && this.props.onChange(this.state.lastValid)
                         })
                     }, 10)
@@ -298,6 +307,7 @@ NumericInput.propTypes = {
     minValue: PropTypes.number,
     maxValue: PropTypes.number,
     step: PropTypes.number,
+    decimals: PropTypes.number,
     upDownButtonsBackgroundColor: PropTypes.string,
     rightButtonBackgroundColor: PropTypes.string,
     leftButtonBackgroundColor: PropTypes.string,
