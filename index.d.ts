@@ -14,6 +14,7 @@ declare module 'react-native-numeric-input' {
     borderColor?: Color
     iconStyle?: ViewStyle
     totalWidth?: number
+    inputWidth?: number
     separatorWidth?: number
     type?: 'plus-minus' | 'up-down'
     rounded?: boolean
