@@ -115,14 +115,14 @@ export default class NumericInput extends Component {
             parsedValue = isNaN(parsedValue) ? 0 : parsedValue
             if (parsedValue !== this.props.value)
                 this.props.onChange && this.props.onChange(parsedValue)
-            this.setState({ value: parsedValue, legal, stringValue: this.stringify(parsedValue) })
+            this.setState({ value: parsedValue, legal, stringValue: parsedValue.toString() })
         } else {
             this.setState({ stringValue: value })
             let parsedValue = this.props.valueType === 'real' ? parseFloat(value) : parseInt(value)
             parsedValue = isNaN(parsedValue) ? 0 : parsedValue
             if (parsedValue !== this.props.value)
                 this.props.onChange && this.props.onChange(parsedValue)
-            this.setState({ value: parsedValue, legal, stringValue: this.stringify(parsedValue) })
+            this.setState({ value: parsedValue, legal, stringValue: parsedValue.toString() })
 
         }
     }
