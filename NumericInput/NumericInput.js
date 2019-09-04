@@ -29,6 +29,16 @@ export default class NumericInput extends Component {
             });
         }
     }
+    
+        componentDidUpdate(prevProps, prevState) {
+        if (prevProps.value != this.props.value || this.props.value != this.state.value) {
+            this.setState({
+                value: this.props.value,
+                stringValue:this.stringify(this.props.value)
+            });
+        }
+    };
+    
     updateBaseResolution = (width, height) => {
         calcSize = create({ width, height })
     }
