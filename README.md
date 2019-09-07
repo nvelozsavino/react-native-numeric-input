@@ -107,6 +107,7 @@ Name                                | Type                                | Defa
 **textColor**                       |`string`                             | `'black'`
 **containerStyle**                  |`object`                             | none
 **inputStyle**                      |`object`                             | none
+**inputWidth**                      |`number`                             | none
 **upDownButtonsBackgroundColor**    |`string`                             | `'white'`
 **rightButtonBackgroundColor**      |`string`                             | `'white'`
 **leftButtonBackgroundColor**       |`string`                             | `'white'`
@@ -120,6 +121,8 @@ Name                                | Type                                | Defa
 **reachMinIncIconStyle**            |`object`                             | none
 **reachMinDecIconStyle**            |`object`                             | none
 **extraTextInputProps**             |`object`                             | none
+**decimals**                        |`number`                             | none
+
 
 ### notes about props
 
